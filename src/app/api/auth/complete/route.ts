@@ -1,11 +1,13 @@
-import prisma from "@/lib/prisma";
+import { prisma } from "@/lib/prisma";
 import { verifyAccessToken } from "@/utils/auth";
 import { isValidFullName } from "@/utils/validation";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
   const authHeader = req.headers.get("authorization");
-  const token = authHeader?.startsWith("Bearer ") ? authHeader.split(" ")[1] : null;
+  const token = authHeader?.startsWith("Bearer ")
+    ? authHeader.split(" ")[1]
+    : null;
 
   if (!token) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });

@@ -1,4 +1,4 @@
-import prisma from "@/lib/prisma";
+import { prisma } from "@/lib/prisma";
 import { createAccessToken, createRefreshToken } from "@/utils/auth";
 import { isValidEmail, isValidPassword } from "@/utils/validation";
 import bcrypt from "bcryptjs";

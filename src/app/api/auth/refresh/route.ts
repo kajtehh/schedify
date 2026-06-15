@@ -1,6 +1,10 @@
-import { verifyRefreshToken, createAccessToken, createRefreshToken } from "@/utils/auth";
+import {
+  verifyRefreshToken,
+  createAccessToken,
+  createRefreshToken,
+} from "@/utils/auth";
 import { NextResponse } from "next/server";
-import prisma from "@/lib/prisma";
+import { prisma } from "@/lib/prisma";
 import { cookies } from "next/headers";
 
 export async function POST(request: Request) {
@@ -12,16 +16,25 @@ export async function POST(request: Request) {
   }
 
   if (!refreshToken) {
-    return NextResponse.json({ error: "No refresh token provided" }, { status: 401 });
+    return NextResponse.json(
+      { error: "No refresh token provided" },
+      { status: 401 },
+    );
   }
 
   const payload = verifyRefreshToken(refreshToken);
 
   if (!payload) {
-    return NextResponse.json({ error: "Invalid refresh token" }, { status: 401 });
+    return NextResponse.json(
+      { error: "Invalid refresh token" },
+      { status: 401 },
+    );
   }
 
-  const userId = typeof payload.userId === "string" ? payload.userId : String(payload.userId);
+  const userId =
+    typeof payload.userId === "string"
+      ? payload.userId
+      : String(payload.userId);
 
   const user = await prisma.user.findUnique({ where: { id: userId } });
   if (!user) {
@@ -31,5 +44,8 @@ export async function POST(request: Request) {
   const newAccessToken = createAccessToken({ userId: user.id });
   const newRefreshToken = createRefreshToken({ userId: user.id });
 
-  return NextResponse.json({ accessToken: newAccessToken, refreshToken: newRefreshToken });
+  return NextResponse.json({
+    accessToken: newAccessToken,
+    refreshToken: newRefreshToken,
+  });
 }

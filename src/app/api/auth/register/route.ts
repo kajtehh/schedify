@@ -1,5 +1,5 @@
 import { sendVerificationEmail } from "@/lib/email";
-import prisma from "@/lib/prisma";
+import { prisma } from "@/lib/prisma";
 import { createAccessToken, createRefreshToken } from "@/utils/auth";
 import { isValidEmail, isValidPassword } from "@/utils/validation";
 import bcrypt from "bcryptjs";
@@ -17,7 +17,7 @@ export async function POST(request: NextRequest) {
   ) {
     return NextResponse.json({ error: "Invalid data" }, { status: 400 });
   }
-  
+
   const existingUser = await prisma.user.findUnique({ where: { email } });
 
   if (existingUser)
