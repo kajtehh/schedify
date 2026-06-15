@@ -1,30 +1,34 @@
 import { Task } from "@/types";
-import { getBaseUrl } from "./get-base-url";
+import { getBaseUrl } from "./env";
 
 const baseUrl = getBaseUrl();
 
 export async function getUserTasks(accessToken: string) {
   const res = await fetch(`${baseUrl}/api/tasks`, {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
   });
-  
+
   if (!res.ok) return null;
-  
+
   const data = await res.json();
   return data.tasks as Task[];
 }
 
-export async function createTask(accessToken: string, title: string, description?: string) {
+export async function createTask(
+  accessToken: string,
+  title: string,
+  description?: string,
+) {
   const response = await fetch(`${baseUrl}/api/tasks`, {
-    method: 'POST',
+    method: "POST",
     headers: {
       Authorization: `Bearer ${accessToken}`,
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify({ title, description })
+    body: JSON.stringify({ title, description }),
   });
 
   const data = await response.json();
@@ -36,12 +40,12 @@ export async function createTask(accessToken: string, title: string, description
 
 export async function deleteTask(accessToken: string, id: string) {
   const response = await fetch(`${baseUrl}/api/tasks`, {
-    method: 'DELETE',
+    method: "DELETE",
     headers: {
       Authorization: `Bearer ${accessToken}`,
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify({ id })
+    body: JSON.stringify({ id }),
   });
 
   if (!response.ok) {
@@ -53,15 +57,15 @@ export async function deleteTask(accessToken: string, id: string) {
 export async function updateTask(
   accessToken: string,
   id: string,
-  fields: { title?: string; description?: string; completed?: boolean }
+  fields: { title?: string; description?: string; completed?: boolean },
 ) {
   const response = await fetch(`${baseUrl}/api/tasks`, {
-    method: 'PATCH',
+    method: "PATCH",
     headers: {
       Authorization: `Bearer ${accessToken}`,
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify({ id, ...fields })
+    body: JSON.stringify({ id, ...fields }),
   });
 
   if (!response.ok) {

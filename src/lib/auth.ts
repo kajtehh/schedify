@@ -1,11 +1,11 @@
-import { getBaseUrl } from "./get-base-url";
+import { getBaseUrl } from "./env";
 
 const baseUrl = getBaseUrl();
 
 export async function loginOrRegister(
   url: "/api/auth/login" | "/api/auth/register",
   email: string,
-  password: string
+  password: string,
 ): Promise<string | null> {
   const response = await fetch(`${baseUrl}/${url}`, {
     method: "POST",
@@ -26,8 +26,8 @@ export async function loginOrRegister(
 }
 
 export async function completeRegistration(
-fullName: string,
-accessToken: string
+  fullName: string,
+  accessToken: string,
 ): Promise<string | null> {
   const res = await fetch(`${baseUrl}/api/auth/complete`, {
     method: "POST",
@@ -56,9 +56,11 @@ export async function logout() {
 
   return response.ok;
 }
-  
+
 export async function verifyEmail(token: string) {
-  const response = await fetch(`${baseUrl}/api/auth/verify-email?token=${token}`);
+  const response = await fetch(
+    `${baseUrl}/api/auth/verify-email?token=${token}`,
+  );
 
   return response.ok;
 }
@@ -73,7 +75,7 @@ export async function resendVerificationEmail(accessToken: string) {
     });
 
     return response.ok;
-  } catch(err) {
+  } catch (err) {
     throw err;
   }
 }

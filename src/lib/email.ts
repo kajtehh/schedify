@@ -1,9 +1,9 @@
-import { User } from "@/generated/prisma"
-import { resend } from "./resend"
-import { getBaseUrl } from "./get-base-url";
+import { resend } from "./resend";
+import { getBaseUrl } from "./env";
+import { User } from "@/generated/prisma/client";
 
 export async function sendVerificationEmail(user: User, token: string) {
-  const verifyUrl = `${getBaseUrl()}/verify-email?token=${token}`
+  const verifyUrl = `${getBaseUrl()}/verify-email?token=${token}`;
 
   const domain = process.env.DOMAIN;
 
@@ -11,7 +11,7 @@ export async function sendVerificationEmail(user: User, token: string) {
     const response = await resend.emails.send({
       from: `verify@${domain}`,
       to: user.email,
-      subject: 'Zweryfikuj swój e-mail',
+      subject: "Zweryfikuj swój e-mail",
       html: `
         <div>
           <h2>Weryfikacja adresu e-mail</h2>
@@ -23,8 +23,10 @@ export async function sendVerificationEmail(user: User, token: string) {
       //react:
     });
 
-    if(response.error) {
-      throw new Error(`Failed to send an email: ${response.error.name} ${response.error.message}.`);
+    if (response.error) {
+      throw new Error(
+        `Failed to send an email: ${response.error.name} ${response.error.message}.`,
+      );
     }
   } catch (err) {
     throw err;

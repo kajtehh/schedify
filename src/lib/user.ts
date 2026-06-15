@@ -1,5 +1,5 @@
 import { User } from "@/types";
-import { getBaseUrl } from "./get-base-url";
+import { getBaseUrl } from "./env";
 
 const baseUrl = getBaseUrl();
 
@@ -18,7 +18,9 @@ export async function getUser(accessToken: string): Promise<User | null> {
   return user;
 }
 
-export async function refreshSession(refreshToken?: string): Promise<string | null> {
+export async function refreshSession(
+  refreshToken?: string,
+): Promise<string | null> {
   const headers: Record<string, string> = {};
   if (refreshToken) {
     headers.Authorization = `Bearer ${refreshToken}`;
@@ -38,9 +40,8 @@ export async function refreshSession(refreshToken?: string): Promise<string | nu
   return data.accessToken ?? null;
 }
 
-
 export async function getUserSession(
-  refreshToken?: string
+  refreshToken?: string,
 ): Promise<{ user: User; accessToken: string } | null> {
   const accessToken = await refreshSession(refreshToken);
 
@@ -48,9 +49,7 @@ export async function getUserSession(
 
   const user = await getUser(accessToken);
 
-  if(!user) return null;
+  if (!user) return null;
 
   return { user, accessToken };
 }
-
-// zrob zeby to wszystko zwracalo wiadomosci doprecyzowane jakies 
