@@ -5,9 +5,7 @@ export default function Home() {
     <>
       <Navbar />
       <main className="mt-52 min-h-screen">
-        <section className="container text-center flex flex-col justify-center items-center">
-          <h1>zbuduj rutyne itp...</h1>
-        </section>
+        <section className="container text-center flex flex-col justify-center items-center"></section>
       </main>
     </>
   );

@@ -9,11 +9,10 @@ import { isValidEmail, isValidPassword } from "@/utils/validation";
 import { useState } from "react";
 import LoadingButton from "@/components/loading-button";
 import { loginOrRegister } from "@/lib/auth";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Divider from "@/components/divider";
 import AuthCard from "@/components/auth-card";
 import { toast } from "sonner";
-import { refreshSession } from "@/lib/user";
 
 type FormData = {
   email: string;
